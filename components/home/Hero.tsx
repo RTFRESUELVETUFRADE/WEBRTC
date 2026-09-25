@@ -13,7 +13,9 @@ export function Hero() {
   } = getImageProps({ ...comun, src: "/img/hero-movil.jpg", width: 1080, height: 1600 });
 
   return (
-    <section className="relative isolate flex min-h-[calc(100dvh-4rem)] flex-col bg-negro text-blanco lg:min-h-[640px] lg:h-[calc(100dvh-72px)] lg:max-h-[820px]">
+    // En escritorio el hero toma la proporción exacta de la foto (3:2): se ve completa, sin recortes
+    // (cabeza, apretón de manos, maqueta y estatua).
+    <section className="relative isolate flex min-h-[calc(100dvh-4rem)] flex-col bg-negro text-blanco lg:aspect-[3/2] lg:min-h-0">
       <picture className="absolute inset-0 -z-10">
         <source media="(min-width: 768px)" srcSet={escritorio} />
         <img
@@ -22,16 +24,17 @@ export function Hero() {
           alt=""
           fetchPriority="high"
           loading="eager"
-          className="size-full object-cover object-[70%_center] md:object-[center_30%]"
+          className="size-full object-cover object-[70%_center] md:object-[center_top]"
         />
       </picture>
-      {/* Overlay: parejo y denso en móvil (texto sobre la foto), degradado lateral en escritorio (la foto respira a la derecha). */}
+      {/* Overlay: parejo y denso en móvil (texto sobre la foto). En escritorio, degradado lateral que se
+          desvanece hacia abajo, para que la maqueta y la estatua queden a la vista bajo el texto. */}
       <div
         aria-hidden="true"
-        className="absolute inset-0 -z-10 bg-[linear-gradient(180deg,rgba(26,26,26,0.35)_0%,rgba(26,26,26,0.62)_45%,rgba(26,26,26,0.82)_100%)] md:bg-[linear-gradient(90deg,rgba(26,26,26,0.88)_0%,rgba(26,26,26,0.72)_38%,rgba(26,26,26,0.15)_68%,rgba(26,26,26,0)_100%)]"
+        className="absolute inset-0 -z-10 bg-[linear-gradient(180deg,rgba(26,26,26,0.35)_0%,rgba(26,26,26,0.62)_45%,rgba(26,26,26,0.82)_100%)] md:bg-[linear-gradient(90deg,rgba(26,26,26,0.88)_0%,rgba(26,26,26,0.72)_38%,rgba(26,26,26,0.15)_68%,rgba(26,26,26,0)_100%)] lg:[mask-image:linear-gradient(180deg,black_0%,black_58%,rgba(0,0,0,0.25)_80%,rgba(0,0,0,0.25)_100%)]"
       />
 
-      <div className={`${contenedor} flex flex-1 flex-col justify-end pt-10 pb-8 md:justify-center md:py-16`}>
+      <div className={`${contenedor} flex flex-1 flex-col justify-end pt-10 pb-8 md:justify-center md:py-16 lg:justify-start lg:pt-[7%]`}>
         <div className="max-w-[660px]">
           <p className="inline-flex rounded-full bg-naranja px-3.5 py-1.5 text-[12px] font-bold tracking-[0.08em] text-blanco uppercase sm:text-[13px]">
             ¿Tienes un contrato de promesa vigente?
