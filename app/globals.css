@@ -1,0 +1,108 @@
+@import "tailwindcss";
+
+:root {
+  /* RTC tokens. Naranja institucional #FC6135 (el del logo) en logo, chips y botones.
+     Sobre él el texto blanco va siempre en negrita para reforzar la lectura. */
+  --naranja: #fc6135; /* color institucional (el del logo): logo, chips, botones, acentos */
+  --naranja-accion: #fc6135; /* botones: mismo naranja institucional */
+  --naranja-accion-hover: #e0561c;
+  --naranja-texto: #c84a12; /* solo para enlaces de texto chico sobre blanco (legibilidad AA) */
+  --naranja-suave: #fdebe3; /* fondos de estado seleccionado */
+  --negro: #1a1a1a;
+  --blanco: #ffffff;
+  --gris-claro: #f5f5f3;
+  --gris-medio: #5c5c5c; /* texto secundario: 6.1:1 sobre gris claro */
+  --gris-borde: #e0e0e0;
+  --verde-exito: #2d8a4e;
+  --rojo-error: #c4342b;
+}
+
+@theme inline {
+  --color-naranja: var(--naranja);
+  --color-accion: var(--naranja-accion);
+  --color-accion-hover: var(--naranja-accion-hover);
+  --color-naranja-texto: var(--naranja-texto);
+  --color-naranja-suave: var(--naranja-suave);
+  --color-negro: var(--negro);
+  --color-blanco: var(--blanco);
+  --color-gris-claro: var(--gris-claro);
+  --color-gris-medio: var(--gris-medio);
+  --color-gris-borde: var(--gris-borde);
+  --color-exito: var(--verde-exito);
+  --color-error: var(--rojo-error);
+  --font-sans: var(--font-texto);
+  --font-display: var(--font-titulo);
+}
+
+/* Sitio de estudio jurídico: un solo tema claro, sin modo oscuro automático. */
+html {
+  scroll-padding-top: 5rem;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  html {
+    scroll-behavior: smooth;
+  }
+}
+
+body {
+  background: var(--blanco);
+  color: var(--negro);
+  font-family: var(--font-texto), ui-sans-serif, system-ui, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+h1,
+h2,
+h3 {
+  font-family: var(--font-titulo), ui-sans-serif, system-ui, sans-serif;
+  font-stretch: 82%;
+  text-wrap: balance;
+}
+
+p {
+  text-wrap: pretty;
+}
+
+::selection {
+  background: var(--naranja);
+  color: var(--blanco);
+}
+
+:focus-visible {
+  outline: 2px solid var(--naranja-accion);
+  outline-offset: 3px;
+}
+
+/* Aparición suave al entrar en pantalla. Sin JS: se degrada a contenido visible. */
+@media (prefers-reduced-motion: no-preference) {
+  @supports (animation-timeline: view()) {
+    .revelar {
+      animation: revelar linear both;
+      animation-timeline: view();
+      animation-range: entry 0% entry 40%;
+    }
+  }
+}
+
+@keyframes revelar {
+  from {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
