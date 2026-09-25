@@ -243,7 +243,7 @@ export const PREGUNTAS_HOME = ["no-continuar", "costo", "rechazo-credito", "dema
 
 export const TESTIMONIOS = [
   {
-    nombre: "Carmen Haros",
+    nombre: "Karlen Haro",
     lugar: "Chiloé",
     caso: "Promesa de un departamento en Puerto Montt",
     cita: "Todo se pudo terminar de buena forma y no fue necesario vernos de manera presencial. Estuvieron conmigo en todo el proceso. Dan mucha paz, tranquilidad y, sobre todo, seguridad.",
