@@ -1,5 +1,6 @@
 import type { Metadata, Viewport } from "next";
 import { Archivo, Source_Sans_3 } from "next/font/google";
+import { Analytics } from "@vercel/analytics/next";
 import { CookieConsent } from "@/components/CookieConsent";
 import { OcultarEn } from "@/components/OcultarEn";
 import { JsonLd } from "@/components/Preguntas";
@@ -96,6 +97,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
         </OcultarEn>
         <SiteFooter />
         <CookieConsent />
+        <Analytics />
       </body>
     </html>
   );
