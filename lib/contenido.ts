@@ -247,19 +247,19 @@ export const TESTIMONIOS = [
     lugar: "Chiloé",
     caso: "Promesa de un departamento en Puerto Montt",
     cita: "Todo se pudo terminar de buena forma y no fue necesario vernos de manera presencial. Estuvieron conmigo en todo el proceso. Dan mucha paz, tranquilidad y, sobre todo, seguridad.",
-    reel: "https://www.instagram.com/reel/CrMFXiFg2HX/",
+    reel: "https://www.instagram.com/reel/CqDQLWbgc4h/",
   },
   {
     nombre: "Sandy Suárez",
     caso: "Devolución del pie",
     cita: "Estuvieron conmigo en cada momento. En menos de tres semanas ya había una solución con la inmobiliaria. Me guiaron y me explicaron todo.",
-    reel: "https://www.instagram.com/reel/CqDQLWbgc4h/",
+    reel: "https://www.instagram.com/reel/CtPi3KPoDtO/",
   },
   {
     nombre: "Francisco Clavijo",
     caso: "Atraso en la entrega y cambio de condiciones",
     cita: "El proyecto se atrasó y cambiaron las condiciones crediticias. Nos asesoraron en la negociación y finalmente ambas partes quedamos conformes. Mucha confianza, siempre dispuestos.",
-    reel: "https://www.instagram.com/reel/CtPi3KPoDtO/",
+    reel: "https://www.instagram.com/reel/CrMFXiFg2HX/",
   },
 ] as const;
 

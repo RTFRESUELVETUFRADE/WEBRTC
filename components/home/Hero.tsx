@@ -44,7 +44,15 @@ export function Hero() {
           </h1>
           <p className="mt-5 max-w-[52ch] text-[17px] leading-relaxed text-blanco/90 sm:text-[18px]">
             Rechazo de crédito, atraso en la entrega, cesantía, enfermedad o cambio de condiciones.
-            <span className="mt-1 block font-semibold text-blanco">Todas tienen salida legal.</span>
+            <a
+              href="https://www.instagram.com/reel/DdpaPcFtugV/"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="mt-1 block w-fit font-semibold text-blanco underline decoration-naranja decoration-2 underline-offset-4 hover:decoration-blanco"
+            >
+              Todas tienen salida legal.
+              <span className="sr-only"> (video en Instagram, abre en una pestaña nueva)</span>
+            </a>
           </p>
           <div className="mt-8 flex flex-col items-stretch gap-5 sm:flex-row sm:items-center sm:gap-8">
             <Link href="#formulario" className={`${botonPrimario} min-h-14 text-[17px] sm:px-8`}>
