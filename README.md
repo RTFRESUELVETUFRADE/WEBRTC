@@ -21,7 +21,7 @@ npm run dev
 
 ## Variables de entorno (Vercel → Settings → Environment Variables)
 
-Ver `.env.example`. Obligatoria: `RESEND_API_KEY`. Recomendada: `META_CAPI_TOKEN`.
+Ver `.env.example`. Obligatoria: `RTC_RESEND_API_KEY`. Los nombres llevan prefijo `RTC_` para no chocar con las variables de RTF, que están compartidas en el mismo equipo de Vercel. Recomendada: `META_CAPI_TOKEN`.
 
 ## Lanzamiento
 
