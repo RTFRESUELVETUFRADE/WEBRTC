@@ -5,7 +5,9 @@
  * pasa por aquí y nada se dispara sin consentimiento explícito.
  */
 
-export const PIXEL_ID = process.env.NEXT_PUBLIC_META_PIXEL_ID ?? "763916406253405";
+// Prefijo RTC_: en el equipo de Vercel hay variables de RTF con el nombre genérico (incluso vacías).
+// Con "||" un valor vacío también cae al Pixel de RTC.
+export const PIXEL_ID = process.env.NEXT_PUBLIC_RTC_META_PIXEL_ID || "763916406253405";
 
 const CLAVE_CONSENTIMIENTO = "rtc-consentimiento-v1";
 const CLAVE_ATRIBUCION = "rtc-atribucion";

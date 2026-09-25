@@ -19,11 +19,11 @@ type LeadCapi = {
 /**
  * API de Conversiones de Meta: envía el mismo "Lead" que el Pixel, desde el servidor.
  * Comparte event_id con el Pixel para que Meta lo cuente una sola vez.
- * Solo se activa si existe META_CAPI_TOKEN y la persona aceptó la medición.
+ * Solo se activa si existe RTC_META_CAPI_TOKEN y la persona aceptó la medición.
  */
 export async function enviarLeadCapi(d: LeadCapi) {
-  const token = process.env.META_CAPI_TOKEN;
-  const pixel = process.env.NEXT_PUBLIC_META_PIXEL_ID ?? "763916406253405";
+  const token = process.env.RTC_META_CAPI_TOKEN;
+  const pixel = process.env.NEXT_PUBLIC_RTC_META_PIXEL_ID || "763916406253405";
   if (!token) return;
 
   const cuerpo = {
@@ -47,10 +47,10 @@ export async function enviarLeadCapi(d: LeadCapi) {
         },
       },
     ],
-    ...(process.env.META_TEST_EVENT_CODE ? { test_event_code: process.env.META_TEST_EVENT_CODE } : {}),
+    ...(process.env.RTC_META_TEST_EVENT_CODE ? { test_event_code: process.env.RTC_META_TEST_EVENT_CODE } : {}),
   };
 
-  const version = process.env.META_GRAPH_VERSION ?? "v23.0";
+  const version = process.env.RTC_META_GRAPH_VERSION || "v23.0";
   const res = await fetch(`https://graph.facebook.com/${version}/${pixel}/events?access_token=${token}`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
