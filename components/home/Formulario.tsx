@@ -12,7 +12,7 @@ import Link from "next/link";
 import { useEffect, useId, useRef, useState } from "react";
 import { CIFRAS, SITE, whatsappUrl } from "@/lib/site";
 import { CLAVE_AGENDA, CLAVE_ENVIO, registrar, useRegistroReciente } from "@/lib/registro-local";
-import { cookiesMeta, evento, leerAtribucion, leerConsentimiento } from "@/lib/tracking";
+import { coincidenciaAvanzada, cookiesMeta, evento, leerAtribucion, leerConsentimiento } from "@/lib/tracking";
 import { botonPrimario, contenedor, tituloSeccion } from "../ui";
 import { AgendaCalendly } from "./AgendaCalendly";
 import { EVENTO_CAUSAL } from "./Causales";
@@ -176,6 +176,12 @@ export function Formulario({ variante = "home" }: { variante?: Variante }) {
         }
         throw new Error(data.error ?? "Error de envío");
       }
+      await coincidenciaAvanzada({
+        correo: campos.correo,
+        telefonoE164: `+569${campos.telefono}`,
+        nombre: campos.nombre,
+        apellido: campos.apellido,
+      }).catch(() => undefined);
       evento(
         "Lead",
         { content_name: campos.calificador === "vigente" ? "promesa_vigente" : "asesoria", content_category: variante },

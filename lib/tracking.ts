@@ -84,6 +84,8 @@ export type Atribucion = {
   utm_term?: string;
   fbclid?: string;
   landing?: string;
+  /** Momento de llegada (ms): Meta lo usa como fecha de creación del identificador de clic (fbc). */
+  t?: number;
 };
 
 const CAMPOS_UTM = ["utm_source", "utm_medium", "utm_campaign", "utm_content", "utm_term", "fbclid"] as const;
@@ -93,7 +95,7 @@ export function capturarAtribucion() {
   try {
     if (sessionStorage.getItem(CLAVE_ATRIBUCION)) return;
     const params = new URLSearchParams(window.location.search);
-    const datos: Atribucion = { landing: window.location.pathname };
+    const datos: Atribucion = { landing: window.location.pathname, t: Date.now() };
     for (const c of CAMPOS_UTM) {
       const v = params.get(c);
       if (v) datos[c] = v.slice(0, 200);
@@ -112,8 +114,39 @@ export function leerAtribucion(): Atribucion {
   }
 }
 
-/** Cookies propias del Pixel, útiles para la API de Conversiones (deduplicación y match). */
+/**
+ * Identificadores de Meta para la API de Conversiones (mejoran la "calidad de coincidencias").
+ * fbp: cookie del Pixel. fbc: cookie del clic en el anuncio; si no existe (p. ej. la persona aceptó
+ * cookies en otra página que la del anuncio), se reconstruye desde el fbclid guardado al llegar,
+ * con el mismo formato que usa el Parameter Builder de Meta: fb.1.<ms>.<fbclid>.
+ */
 export function cookiesMeta() {
   const leer = (n: string) => document.cookie.match(new RegExp(`(?:^|; )${n}=([^;]*)`))?.[1];
-  return { fbp: leer("_fbp"), fbc: leer("_fbc") };
+  const a = leerAtribucion();
+  const fbc = leer("_fbc") ?? (a.fbclid ? `fb.1.${a.t ?? Date.now()}.${a.fbclid}` : undefined);
+  return { fbp: leer("_fbp"), fbc };
+}
+
+async function sha256Hex(texto: string) {
+  const bytes = await crypto.subtle.digest("SHA-256", new TextEncoder().encode(texto));
+  return [...new Uint8Array(bytes)].map((b) => b.toString(16).padStart(2, "0")).join("");
+}
+
+/**
+ * Coincidencia avanzada manual del Pixel: justo antes del evento Lead le entrega a Meta los datos
+ * que la persona escribió en el formulario. El Pixel los cifra (hash SHA-256) en el navegador antes
+ * de enviarlos; Meta nunca recibe el dato en claro. Solo con consentimiento aceptado.
+ * external_id = hash del correo, el mismo que envía el servidor por la API de Conversiones.
+ */
+export async function coincidenciaAvanzada(d: { correo: string; telefonoE164: string; nombre: string; apellido: string }) {
+  if (leerConsentimiento() !== "aceptado" || !window.fbq) return;
+  const correo = d.correo.trim().toLowerCase();
+  window.fbq("init", PIXEL_ID, {
+    em: correo,
+    ph: d.telefonoE164.replace(/D/g, ""),
+    fn: d.nombre.trim().toLowerCase(),
+    ln: d.apellido.trim().toLowerCase(),
+    country: "cl",
+    external_id: await sha256Hex(correo),
+  });
 }

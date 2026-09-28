@@ -39,6 +39,8 @@ export async function enviarLeadCapi(d: LeadCapi) {
           ph: [sha256(d.telefonoE164.replace(/\D/g, ""))],
           fn: [sha256(d.nombre)],
           ln: [sha256(d.apellido)],
+          // Igual que el Pixel: external_id = hash del hash del correo (el navegador envía sha256(correo) y Meta lo vuelve a cifrar).
+          external_id: [sha256(sha256(d.correo))],
           country: [sha256("cl")],
           client_ip_address: d.ip,
           client_user_agent: d.userAgent,
