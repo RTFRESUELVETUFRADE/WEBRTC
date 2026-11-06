@@ -91,7 +91,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
         <main id="contenido" className="flex-1">
           {children}
         </main>
-        <OcultarEn rutas={["/formulario-campanas"]}>
+        <OcultarEn rutas={["/formulario-campanas", "/recupera-iva"]}>
           <PreFooter />
         </OcultarEn>
         <SiteFooter />

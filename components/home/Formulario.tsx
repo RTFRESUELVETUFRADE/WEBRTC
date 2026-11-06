@@ -10,6 +10,14 @@ import {
 } from "@phosphor-icons/react";
 import Link from "next/link";
 import { useEffect, useId, useRef, useState } from "react";
+import {
+  MENSAJES,
+  RE_NOMBRE,
+  correoValido,
+  formatoTelefono,
+  normalizarTelefono,
+  telefonoValido,
+} from "@/lib/formulario";
 import { CIFRAS, SITE, whatsappUrl } from "@/lib/site";
 import { CLAVE_AGENDA, CLAVE_ENVIO, registrar, useRegistroReciente } from "@/lib/registro-local";
 import { coincidenciaAvanzada, cookiesMeta, evento, leerAtribucion, leerConsentimiento } from "@/lib/tracking";
@@ -30,36 +38,23 @@ type Errores = Partial<Record<keyof Campos, string>>;
 type Estado = "editando" | "enviando" | "exito" | "error" | "duplicado";
 
 const VACIO: Campos = { calificador: "", nombre: "", apellido: "", telefono: "", correo: "", caso: "" };
-const RE_NOMBRE = /^[\p{L}][\p{L}'’\-. ]+$/u;
-const RE_CORREO = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
 
 function validar(campo: keyof Campos, v: string): string | undefined {
   switch (campo) {
     case "calificador":
-      return v ? undefined : "Elige una opción para continuar.";
+      return v ? undefined : MENSAJES.opcion;
     case "nombre":
     case "apellido":
       if (v.trim().length < 2) return campo === "nombre" ? "Escribe tu nombre." : "Escribe tu apellido.";
-      return RE_NOMBRE.test(v.trim()) ? undefined : "Usa solo letras, sin números.";
+      return RE_NOMBRE.test(v.trim()) ? undefined : MENSAJES.soloLetras;
     case "telefono":
-      return /^\d{8}$/.test(v) ? undefined : "Revisa el número. Deben ser 8 dígitos después del +56 9.";
+      return telefonoValido(v) ? undefined : MENSAJES.telefono;
     case "correo":
-      return RE_CORREO.test(v.trim()) ? undefined : "Revisa el correo. Debe tener el formato nombre@dominio.cl";
+      return correoValido(v) ? undefined : MENSAJES.correo;
     case "caso":
       return v.trim().length >= 20 ? undefined : "Cuéntanos un poco más (al menos 20 caracteres).";
   }
 }
-
-/** Deja solo los 8 dígitos locales aunque peguen "+56 9 1234 5678", "9 1234-5678", etc. */
-function normalizarTelefono(entrada: string) {
-  let d = entrada.replace(/\D/g, "");
-  if (d.startsWith("569") && d.length > 8) d = d.slice(3);
-  else if (d.startsWith("56") && d.length > 9) d = d.slice(2);
-  if (d.startsWith("9") && d.length > 8) d = d.slice(1);
-  return d.slice(0, 8);
-}
-
-const formatoTelefono = (d: string) => (d.length > 4 ? `${d.slice(0, 4)} ${d.slice(4)}` : d);
 
 const ORDEN: (keyof Campos)[] = ["calificador", "nombre", "apellido", "telefono", "correo", "caso"];
 

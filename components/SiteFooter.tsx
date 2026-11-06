@@ -1,6 +1,6 @@
 import { FacebookLogo, InstagramLogo } from "@phosphor-icons/react/dist/ssr";
 import Link from "next/link";
-import { CTA, SITE, mapsUrl, whatsappUrl } from "@/lib/site";
+import { CAMPANA_IVA, CTA, SITE, mapsUrl, whatsappUrl } from "@/lib/site";
 import { LogoRTC } from "./Brand";
 import { BotonPreferenciasCookies } from "./CookieConsent";
 import { botonBlanco, contenedor } from "./ui";
@@ -46,6 +46,9 @@ export function SiteFooter() {
             <li><Link className={enlace} href="/">Inicio</Link></li>
             <li><Link className={enlace} href="/trayectoria">Trayectoria</Link></li>
             <li><Link className={enlace} href="/metodologia">Metodología</Link></li>
+            {CAMPANA_IVA.activa && (
+              <li><Link className={enlace} href={CAMPANA_IVA.ruta}>{CAMPANA_IVA.etiqueta}</Link></li>
+            )}
             <li><Link className={enlace} href="/#formulario">{CTA.principal}</Link></li>
             <li><a className={enlace} href={SITE.calendly} target="_blank" rel="noopener noreferrer">Agendar reunión</a></li>
           </ul>

@@ -44,6 +44,16 @@ export const CIFRAS = {
   rangoCorto: "80-100%",
 } as const;
 
+/**
+ * Campaña transitoria "Recupera tu IVA" (Ley 21.850). Con activa: false desaparece del header,
+ * del footer, del sitemap y del carrusel del hero; la página /recupera-iva queda solo por enlace directo.
+ */
+export const CAMPANA_IVA = {
+  activa: true,
+  ruta: "/recupera-iva",
+  etiqueta: "Recupera IVA",
+} as const;
+
 export const CTA = {
   principal: "Cuéntanos tu caso",
   nav: "Recupera tu pie",

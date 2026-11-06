@@ -8,6 +8,10 @@
   --naranja-accion-hover: #e0561c;
   --naranja-texto: #c84a12; /* solo para enlaces de texto chico sobre blanco (legibilidad AA) */
   --naranja-suave: #fdebe3; /* fondos de estado seleccionado */
+  /* Campaña IVA: mismos tonos que los creativos de Meta (fondo crema, tinta, banda de selección). */
+  --crema: #f6f4ef;
+  --tinta: #14181f;
+  --banda: rgba(252, 97, 53, 0.2);
   --negro: #1a1a1a;
   --blanco: #ffffff;
   --gris-claro: #f5f5f3;
@@ -23,6 +27,9 @@
   --color-accion-hover: var(--naranja-accion-hover);
   --color-naranja-texto: var(--naranja-texto);
   --color-naranja-suave: var(--naranja-suave);
+  --color-crema: var(--crema);
+  --color-tinta: var(--tinta);
+  --color-banda: var(--banda);
   --color-negro: var(--negro);
   --color-blanco: var(--blanco);
   --color-gris-claro: var(--gris-claro);
@@ -45,24 +52,27 @@ html {
   }
 }
 
-body {
-  background: var(--blanco);
-  color: var(--negro);
-  font-family: var(--font-texto), ui-sans-serif, system-ui, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  text-rendering: optimizeLegibility;
-}
+/* En la capa base para que las utilidades (whitespace-nowrap, [font-stretch:…]) puedan sobrescribirlas. */
+@layer base {
+  body {
+    background: var(--blanco);
+    color: var(--negro);
+    font-family: var(--font-texto), ui-sans-serif, system-ui, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+  }
 
-h1,
-h2,
-h3 {
-  font-family: var(--font-titulo), ui-sans-serif, system-ui, sans-serif;
-  font-stretch: 82%;
-  text-wrap: balance;
-}
+  h1,
+  h2,
+  h3 {
+    font-family: var(--font-titulo), ui-sans-serif, system-ui, sans-serif;
+    font-stretch: 82%;
+    text-wrap: balance;
+  }
 
-p {
-  text-wrap: pretty;
+  p {
+    text-wrap: pretty;
+  }
 }
 
 ::selection {

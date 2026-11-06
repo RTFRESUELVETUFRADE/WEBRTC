@@ -15,9 +15,12 @@ const token = process.env.KV_REST_API_TOKEN ?? process.env.UPSTASH_REDIS_REST_TO
 
 const memoria = new Map<string, number>();
 
-const claves = (correo: string, telefono: string) =>
+/** Cada formulario lleva su propia cuenta: enviar un caso de pie no bloquea la consulta por IVA. */
+export type Ambito = "pie" | "iva";
+
+const claves = (correo: string, telefono: string, ambito: Ambito) =>
   [correo.trim().toLowerCase(), telefono.replace(/\D/g, "")].map(
-    (v) => `rtc:lead:${createHash("sha256").update(v).digest("hex")}`
+    (v) => `rtc:lead:${ambito === "pie" ? "" : `${ambito}:`}${createHash("sha256").update(v).digest("hex")}`
   );
 
 async function redis(comandos: (string | number)[][]) {
@@ -31,8 +34,8 @@ async function redis(comandos: (string | number)[][]) {
   return (await res.json()) as { result: unknown }[];
 }
 
-export async function envioReciente(correo: string, telefono: string): Promise<boolean> {
-  const ks = claves(correo, telefono);
+export async function envioReciente(correo: string, telefono: string, ambito: Ambito = "pie"): Promise<boolean> {
+  const ks = claves(correo, telefono, ambito);
   if (url && token) {
     try {
       const r = await redis(ks.map((k) => ["EXISTS", k]));
@@ -47,8 +50,8 @@ export async function envioReciente(correo: string, telefono: string): Promise<b
   return ks.some((k) => (memoria.get(k) ?? 0) > ahora);
 }
 
-export async function marcarEnvio(correo: string, telefono: string) {
-  const ks = claves(correo, telefono);
+export async function marcarEnvio(correo: string, telefono: string, ambito: Ambito = "pie") {
+  const ks = claves(correo, telefono, ambito);
   if (url && token) {
     await redis(ks.map((k) => ["SET", k, 1, "EX", TTL_SEGUNDOS])).catch((e) =>
       console.error("Duplicados (escritura):", e)

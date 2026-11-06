@@ -4,11 +4,13 @@ import { List, X } from "@phosphor-icons/react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
-import { CTA } from "@/lib/site";
+import { CAMPANA_IVA, CTA } from "@/lib/site";
 import { LogoRTC } from "./Brand";
 import { contenedor } from "./ui";
 
+// "Recupera IVA" es un link más (sin botón naranja): el foco de la marca sigue siendo recuperar el pie.
 const RUTAS = [
+  ...(CAMPANA_IVA.activa ? [{ href: CAMPANA_IVA.ruta, label: CAMPANA_IVA.etiqueta }] : []),
   { href: "/trayectoria", label: "Trayectoria" },
   { href: "/metodologia", label: "Metodología" },
 ];

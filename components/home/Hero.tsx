@@ -1,9 +1,32 @@
 import { getImageProps } from "next/image";
 import Link from "next/link";
-import { CIFRAS, CTA } from "@/lib/site";
+import { CAMPANA_IVA, CIFRAS, CTA } from "@/lib/site";
 import { botonPrimario, contenedor, enlaceSubrayado } from "../ui";
+import { HeroCarrusel } from "./HeroCarrusel";
+import { SlideIva } from "./SlideIva";
+
+// En escritorio el hero toma la proporción exacta de la foto (3:2): se ve completa, sin recortes
+// (cabeza, apretón de manos, maqueta y estatua).
+const MARCO = "min-h-[calc(100dvh-4rem)] lg:aspect-[3/2] lg:min-h-0";
 
 export function Hero() {
+  if (!CAMPANA_IVA.activa) {
+    return (
+      <section className={`flex flex-col ${MARCO}`}>
+        <HeroPie />
+      </section>
+    );
+  }
+  return (
+    <HeroCarrusel className={MARCO} nombres={["Recupera tu pie", "Recupera tu IVA"]}>
+      <HeroPie />
+      <SlideIva />
+    </HeroCarrusel>
+  );
+}
+
+/** Lámina principal: el servicio de siempre, recuperar el pie. */
+function HeroPie() {
   const comun = { alt: "", sizes: "100vw", quality: 75 };
   const {
     props: { srcSet: escritorio },
@@ -13,9 +36,7 @@ export function Hero() {
   } = getImageProps({ ...comun, src: "/img/hero-movil.jpg", width: 1080, height: 1600 });
 
   return (
-    // En escritorio el hero toma la proporción exacta de la foto (3:2): se ve completa, sin recortes
-    // (cabeza, apretón de manos, maqueta y estatua).
-    <section className="relative isolate flex min-h-[calc(100dvh-4rem)] flex-col bg-negro text-blanco lg:aspect-[3/2] lg:min-h-0">
+    <div className="relative isolate flex flex-1 flex-col bg-negro text-blanco">
       <picture className="absolute inset-0 -z-10">
         <source media="(min-width: 768px)" srcSet={escritorio} />
         <img
@@ -72,6 +93,6 @@ export function Hero() {
           <li><strong className="block text-[17px] text-blanco sm:inline sm:text-[15px]">Primera reunión</strong> sin costo</li>
         </ul>
       </div>
-    </section>
+    </div>
   );
 }

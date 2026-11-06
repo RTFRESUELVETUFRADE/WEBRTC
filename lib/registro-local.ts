@@ -12,8 +12,10 @@ const EVENTO = "rtc:registro-local";
 
 export const CLAVE_ENVIO = "rtc-caso-enviado";
 export const CLAVE_AGENDA = "rtc-reunion-agendada";
+/** Consulta de la campaña IVA: cuenta aparte, para no confundirla con un caso de pie. */
+export const CLAVE_ENVIO_IVA = "rtc-iva-enviado";
 
-type Clave = typeof CLAVE_ENVIO | typeof CLAVE_AGENDA;
+type Clave = typeof CLAVE_ENVIO | typeof CLAVE_AGENDA | typeof CLAVE_ENVIO_IVA;
 
 export function registrar(clave: Clave) {
   try {
