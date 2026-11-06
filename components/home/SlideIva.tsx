@@ -12,12 +12,15 @@ export function SlideIva() {
     <div className="relative flex flex-1 flex-col bg-crema text-tinta">
       <div className={`${contenedor} flex flex-1 flex-col pt-16 pb-6 md:pt-10 lg:py-[4.5%]`}>
         <p className={esquina}>Ley 21.850</p>
-        {/* Solo escritorio: llena el espacio superior con el titular del creativo S2 de la misma campaña. */}
-        <p className="mt-6 hidden max-w-[24ch] font-display text-[clamp(40px,3.9vw,60px)] leading-[1.02] font-extrabold tracking-[-0.03em] [font-stretch:92%] lg:block">
-          ¿Sabías que puedes <span className="text-naranja">recuperar el IVA</span> de tu propiedad?
-        </p>
+        {/* Solo escritorio: titular del creativo S2 de la misma campaña, centrado en el espacio
+            entre "Ley 21.850" y el calendario (toma todo el aire disponible y se ubica al medio). */}
+        <div className="hidden lg:flex lg:flex-1 lg:items-center">
+          <p className="max-w-[24ch] font-display text-[clamp(40px,3.9vw,60px)] leading-[1.02] font-extrabold tracking-[-0.03em] [font-stretch:92%]">
+            ¿Sabías que puedes <span className="text-naranja">recuperar el IVA</span> de tu propiedad?
+          </p>
+        </div>
 
-        <div className="grid flex-1 content-center items-center gap-6 py-6 md:gap-10 lg:grid-cols-[0.95fr_1fr] lg:gap-[6%]">
+        <div className="grid flex-1 content-center items-center gap-6 py-6 md:gap-10 lg:flex-none lg:grid-cols-[0.95fr_1fr] lg:gap-[6%] lg:pt-0 lg:pb-[4%]">
           <div>
             <CalendarioIva />
             <RangoMeses className="mt-5 text-[clamp(42px,5.8vw,84px)] lg:mt-8" />
